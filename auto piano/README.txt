@@ -1,14 +1,18 @@
 
+NOT TESTED ON VAC SECURE SERVERS TRY THIS ON A VAC SECURE SERVER AT YOUR OWN RISK!
+
+
+To open a song file just drag it onto PianoPlayer.exe and if it is loaded it should say
+
+
+
 MADE BY
 https://steamcommunity.com/profiles/76561198115677693/
-
 You can share and edit this code just make sure to give some credit to me
 
 
 
 
-
-To open a song file just drag it onto PianoPlayer.exe and if it is loaded it should say
 
 Song file help
 ================== SONG FILE START ==================
@@ -23,9 +27,3 @@ SongNotes (The notes in the song *'[]' is played together*)
 
 
 If you are taking songs from https://virtualpiano.net/ make sure to use https://removelinebreaks.net/ and set line breaks to none, or else the song delays wont be correct!
-
-First delay is for every character other than ' ' & '|' but no delay is applied if ' ' or '|' is ahead
-Second delay is only for ' '
-Third delay is only for '|'
-'[]' in notes is played together
-Key time must be greater than 0 if you want it to work with Garry's Mod
