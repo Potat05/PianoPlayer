@@ -35,7 +35,7 @@ The song file format.
   
 =============== START OF FILE ===============  
 Song Name  
-Song Discription  
+Song Description  
 Delay 1 (Delay for anything that isnt ' ' or '|' but no delay if ' ' or '|' is ahead)  
 Delay 2 (Delay for ' ')  
 Delay 3 (Delay for '|')  
