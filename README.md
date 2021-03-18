@@ -8,9 +8,13 @@ My first C++ project!
 
 # HOW TO USE
 Drag a song from the songs folder onto PianoPlayer.exe
+
 NUMPAD1 to start the song
+
 NUMPAD2 to stop the song
+
 NUMPAD3 to close the program
+
 (If keybinds don't work make sure you have num lock on!)
 
 
