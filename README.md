@@ -30,15 +30,16 @@ NUMPAD3 to close the program
   
   
 # SONG FILE
-
-The song file format.
-
-=============== START OF FILE ===============
-Song Name
-Song Discription
-Delay 1 (Delay for anything that isnt ' ' or '|' but no delay if ' ' or '|' is ahead)
-Delay 2 (Delay for ' ')
-Delay 3 (Delay for '|')
-Key Time (The amount of time the key is pressed *Keep this above 0 if you want it to work for Garry's Mod*)
-Song Data (The notes in the song)
-================ END OF FILE ================
+  
+The song file format.  
+  
+=============== START OF FILE ===============  
+Song Name  
+Song Discription  
+Delay 1 (Delay for anything that isnt ' ' or '|' but no delay if ' ' or '|' is ahead)  
+Delay 2 (Delay for ' ')  
+Delay 3 (Delay for '|')  
+Key Time (The amount of time the key is pressed *Keep this above 0 if you want it to work for Garry's Mod*)  
+Song Data (The notes in the song)  
+================ END OF FILE ================  
+  
