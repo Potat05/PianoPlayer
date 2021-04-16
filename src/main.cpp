@@ -3,11 +3,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <chrono>
+#include <time.h>
 #include "./presskeys.h"
 using namespace std;
 
-string version = "0.2";
+string version = "0.3";
 
 bool running = false;
 
@@ -30,10 +30,6 @@ static int StrToInt(string str) {
     int x = 0;
     ss >> x;
     return x;
-}
-
-static int currTime() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 static void killProgram() {
@@ -63,6 +59,16 @@ static int nextKey() {
     if(note == '|') {
         song_index++;
         return song_delays[2];
+    }
+    if(note == '{') {
+        song_index++;
+        string numstr = "";
+        while(song_notes[song_index] != '}') {
+            numstr += song_notes[song_index];
+            song_index++;
+        }
+        song_index++;
+        return StrToInt(numstr);
     }
 
     if(note == '[') {
@@ -100,7 +106,7 @@ static int nextKey() {
 }
 
 static void pianoTick() {
-    int t = currTime();
+    int t = clock();
     if(t >= song_nextNoteTime) {
         song_nextNoteTime = t + nextKey();
     }
@@ -134,7 +140,7 @@ static void startAutoPiano() {
 					break;
 				}
 
-
+                
 
                 pianoTick();
 
@@ -215,6 +221,7 @@ int main(int argc, char* argv[]) {
 	cout << "NumPad3 = CLOSE" << endl;
 	cout << "======================================================" << endl;
 	cout << "[ LOG ] " << endl;
+
 
 
 

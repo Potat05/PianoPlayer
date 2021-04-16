@@ -1,0 +1,7 @@
+Test song.
+This is a song file to test stuffs.
+100
+200
+300
+10
+abc def|ghi{500}jkl{3000}mno|||p

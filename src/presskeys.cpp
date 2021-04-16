@@ -5,7 +5,6 @@
 void PressKey(char key, int keyTime) {
     
     int keyInt = (int)key;
-    // cout << key << "   " << keyInt << endl;
     
     if(keyInt >= 48 && keyInt <= 57) { // 0-9
         keybd_event(keyInt, 0, 0, 0);

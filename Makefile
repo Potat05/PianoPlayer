@@ -26,6 +26,8 @@ INCLUDE	:= include
 # define lib directory
 LIB		:= lib
 
+
+
 ifeq ($(OS),Windows_NT)
 MAIN	:= PianoPlayer.exe
 SOURCEDIRS	:= $(SRC)

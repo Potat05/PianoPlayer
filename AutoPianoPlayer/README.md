@@ -24,15 +24,16 @@ NUMPAD3 to close the program
   
   
 # TODO
-- [ ] Allow multiple keys to be played at once (Right now it just plays every one in a group really fast)  
+- [x] Allow custom delays ("abc{1000}def")  
+- [ ] A mode where you can record keystrokes to save to file  
 - [ ] GUI  
 - [ ] Transposition (Move keys up or down in pitch)  
   
   
   
 # OTHER
-[VirtualPiano](https://virtualpiano.net/) to find songs.  
-[RemoveLineBreaks](https://removelinebreaks.net/) to put songs onto one line so the code can read it.  
+[VirtualPiano](https://virtualpiano.net/) - to find songs.  
+[RemoveLineBreaks](https://removelinebreaks.net/) - to put songs onto one line so the code can read it.  
   
   
   
@@ -42,7 +43,7 @@ The song file format.
   
 =============== START OF FILE ===============  
 Song Name  
-Song Discription  
+Song Description  
 Delay 1 (Delay for anything that isnt ' ' or '|' but no delay if ' ' or '|' is ahead)  
 Delay 2 (Delay for ' ')  
 Delay 3 (Delay for '|')  
