@@ -9,6 +9,14 @@
   **USE THIS ON VAC SECURE SERVERS AT YOUR OWN RISK!**  
   
   
+# HELP
+  
+This was made for windows 10 x86  
+If it doesn't work try installing Visual C++  
+If it still doesn't work try searching the error online for any fixes  
+If it still just wont work you can try to compile the code on your computer  
+And if it still doesn't work you're out of luck i guess. . .  
+  
   
 # TODO  
   
