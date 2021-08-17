@@ -1,6 +1,7 @@
 
 #include <windows.h>
 #include <iostream>
+#include <fstream>
 
 #include "player.h"
 #include "parser.h"
@@ -70,10 +71,55 @@ Piano_Parser default_song() {
 }
 
 
+// There has to be a easier way of doing this.
+void options(string file_location) {
+    ifstream file(file_location);
+    string file_string((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
+
+    // Find each option & apply
+    string option;
+    string value;
+    for(int i=0; i < (int)file_string.length(); i++) {
+        // No option / comment
+        if(file_string[i] == '#' || file_string[i] == ' ') {
+            while(file_string[i] != '\n') i++;
+        }
+
+        if(file_string[i] == '\n') continue;
+
+        // Get option
+        while(file_string[i] != '=') option += file_string[i++];
+        i++;
+        while(file_string[i] != '\n' && i < (int)file_string.length()) value += file_string[i++];
+
+        // Set option
+
+        if(option == "key_time") {
+            stringstream valss(value);
+            int valnum = 0;
+            valss >> valnum;
+            player.keys.key_time = valnum;
+        }
+
+
+
+        // cout << option << "=" << value << endl;
+
+
+
+    }
+
+}
+
+
+
 int main(int argc, char *argv[]) {
 
     SetConsoleTitle(TEXT("Auto Piano Player - https://github.com/Potat05/PianoPlayer"));
 	
+
+    options("AutoPianoPlayerOptions.txt");
+
 
     if(argc == 1) {
         player.data = default_song().data;
