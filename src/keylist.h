@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
     
 struct Piano_KeyList {
     // Key = "*button**note**octave*"
@@ -27,6 +28,7 @@ struct Piano_KeyList {
     void press_key(char key);
     bool press_note(char note, char octave);
     bool press_midi(int value);
+    void input_key(char keyParam, bool upper=false);
 };
 
 

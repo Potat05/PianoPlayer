@@ -3,29 +3,58 @@
 
 #include <windows.h>
 
+#include <iostream>
+
 using namespace std;
 
 
-// TODO: Improve this jank function!
+
+// I'm hopeless, what did I create?
+void Piano_KeyList::input_key(char keyParam, bool upper) {
+    // Hold shift
+    if(upper) {
+        unsigned int mappedkey2 = MapVirtualKey(VK_SHIFT, 0);
+        INPUT input2;
+        input2.type = INPUT_KEYBOARD;
+        input2.ki.dwFlags = KEYEVENTF_SCANCODE;
+        input2.ki.wScan = mappedkey2;
+        SendInput(1, &input2, sizeof(input2));
+    }
+    // Press key
+    short key1 = VkKeyScan(keyParam);
+    unsigned int mappedkey1 = MapVirtualKey(LOBYTE(key1), 0);
+    INPUT input1;
+    input1.type = INPUT_KEYBOARD;
+    input1.ki.dwFlags = KEYEVENTF_SCANCODE;
+    input1.ki.wScan = mappedkey1;
+    SendInput(1, &input1, sizeof(input1));
+    Sleep(key_time);
+    input1.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+    SendInput(1, &input1, sizeof(input1));
+
+    // Release shift
+    if(upper) {
+        unsigned int mappedkey2 = MapVirtualKey(VK_SHIFT, 0);
+        INPUT input2;
+        input2.type = INPUT_KEYBOARD;
+        input2.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+        input2.ki.wScan = mappedkey2;
+        SendInput(1, &input2, sizeof(input2));
+    }
+}
+
+// Good enough, I guess.
 void Piano_KeyList::press_key(char key) {
     if(key >= 48 && key <= 57) { // 0-9
-        keybd_event(key, 0, 0, 0);
-        Sleep(key_time);
-        keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
+        input_key(key, false);
         return;
     }
     if(key >= 65 && key <= 90) { // A-Z
-        keybd_event(VK_SHIFT, 0x10, 0, 0);
-        keybd_event(key, 0, 0, 0);
-        Sleep(key_time);
-        keybd_event(key, 0, KEYEVENTF_KEYUP, 0);
-        keybd_event(VK_SHIFT, 0x10, KEYEVENTF_KEYUP, 0);
+        input_key(key, true);
         return;
     }
     if(key >= 97 && key <= 122) { // a-z
-        keybd_event(key - 32, 0, 0, 0);
-        Sleep(key_time);
-        keybd_event(key - 32, 0, KEYEVENTF_KEYUP, 0);
+        input_key(key - 32, false);
         return;
     }
 
@@ -34,11 +63,7 @@ void Piano_KeyList::press_key(char key) {
 
     for(int i=0; i < 10; i++) {
         if(key == uppk[i]) {
-            keybd_event(VK_SHIFT, 0x10, 0, 0);
-            keybd_event(48 + i, 0, 0, 0);
-            Sleep(key_time);
-            keybd_event(48 + i, 0, KEYEVENTF_KEYUP, 0);
-            keybd_event(VK_SHIFT, 0x10, KEYEVENTF_KEYUP, 0);
+            input_key(48 + i, true);
             return;
         }
     }
