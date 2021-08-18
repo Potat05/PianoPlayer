@@ -35,6 +35,13 @@ And if it still doesn't work you're out of luck i guess. . .
   
   * 19 6 2021
     * Remade the whole entire thing and the way songs are formatted
+  * 16 8 2021
+    * Support for more games (Like roblox)
+  * 17 8 2021
+    * Added AutoPianoPlayer.txt options
+      * key_delay (Used to increase the amount of time each key is pressed)
+  * 18 8 2021
+    * Fixed bug that made it impossible to exit the program when key_delay option is too high.
   
   
   
@@ -93,6 +100,6 @@ You may modify this code in any way (Other than making it a virus) and re-upload
 [Remove Line Breaks](https://removelinebreaks.net/) Remove line breaks in songs  
 
 
-  I've had v1.0 for a long time I just haven't uploaded it because i was never satisfied enough with how it was turning out so i just redid the whole thing again.
+
   
   
