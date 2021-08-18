@@ -38,7 +38,7 @@ And if it still doesn't work you're out of luck i guess. . .
   * 16 8 2021
     * Support for more games (Like roblox)
   * 17 8 2021
-    * Added AutoPianoPlayer.txt options
+    * Added AutoPianoPlayerOptions.txt options
       * key_delay (Used to increase the amount of time each key is pressed)
   * 18 8 2021
     * Fixed bug that made it impossible to exit the program when key_delay option is too high.
