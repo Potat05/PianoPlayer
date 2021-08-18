@@ -42,7 +42,7 @@ void Piano_Player::stop() {
 
 void Piano_Player::step() {
 
-    // Used to compensate for lossed time pressing keys
+    // Used to compensate for lossed time from pressing keys.
     unsigned int key_count = 0;
 
     while(time <= clock() && running) {
@@ -55,25 +55,34 @@ void Piano_Player::step() {
         // Normal action
         if(action_type <= 0x9) {
             switch(action_type) {
-                case 0x0: break;
-                case 0x1: {
+                case 0x0: break; // ACTION: NULL
+                case 0x1: { // ACTION: PLAY KEYS
                     if(debug) {
                         cout << "Action PLAY KEYS - count: " << (int)action_val << " - keys: " << data.read_string(action_val) << endl;
                         data.pointer -= action_val;
                     }
+                    // Press keys
                     key_count += action_val;
                     for(unsigned char i=action_val; i > 0; i--) {
                         keys.press_key(data.read_char());
                     }
                     break; }
-                case 0x2: {
+                case 0x2: { // ACTION: DELAY
+                    // Get delay
                     unsigned int val;
                     switch(action_val) {
                         case 0x0: val = data.read_char(); break;
                         case 0x1: val = data.read_short(); break;
                         case 0x2: val = data.read_int(); break;
                     }
+
+                    // Add delay to time
                     time = clock() + val - key_count * keys.key_time;
+                    // Don't subtract key delay if it will get it stuck forever.
+                    if(time <= clock()) time = clock() + val;
+                    // This is the easiest way I found to fix it.
+                    // Too lazy to fix it in other ways so just deal with it.
+
                     if(debug) {
                         cout << "Action DELAY - delay: " << val << " - " << key_count << "*" << keys.key_time << endl;
                     }
@@ -82,7 +91,7 @@ void Piano_Player::step() {
         } else { // Meta action
             action_type = action;
             switch(action_type) {
-                case 0xFF: {
+                case 0xFF: { // META ACTION: END SONG
                     if(debug) {
                         cout << "Meta Action END SONG" << endl;
                     }
