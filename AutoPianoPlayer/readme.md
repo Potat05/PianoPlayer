@@ -1,4 +1,4 @@
-
+`
 # [Auto Piano Player - Ver2.0](https://github.com/Potat05/PianoPlayer)  
   
 [Garry's Mod](https://store.steampowered.com/app/4000/Garrys_Mod/)  
@@ -42,6 +42,9 @@ And if it still doesn't work you're out of luck i guess. . .
       * key_delay (Used to increase the amount of time each key is pressed)
   * 18 8 2021
     * Fixed bug that made it impossible to exit the program when key_delay option is too high.
+  * 19 8 2021
+    * Song compressing for pianosave
+    * Print action
   
   
   
@@ -96,6 +99,7 @@ You may modify this code in any way (Other than making it a virus) and re-upload
   
 [Virtual Piano Sheets](https://virtualpiano.net/music-sheets/) sheets 2  
 [Virtual Piano Sheets](https://virtualpianosheets.com/) sheets 1  
+[Virtual Piano Sheets](https://trello.com/b/n3cbomdF/virtual-piano-sheets) sheets 3
   
 [Remove Line Breaks](https://removelinebreaks.net/) Remove line breaks in songs  
 
