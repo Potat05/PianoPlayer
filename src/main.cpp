@@ -14,6 +14,8 @@ Piano_Player player;
 string save_location = "_pianosave";
 unsigned int save_max_size = 32 * 1024;
 
+bool VAC_Warning = true;
+
 
 static void startAutoPiano() {
 
@@ -88,6 +90,8 @@ void options(string file_location) {
         if(file_string[i] == '\n') continue;
 
         // Get option
+        option = "";
+        value = "";
         while(file_string[i] != '=') option += file_string[i++];
         i++;
         while(file_string[i] != '\n' && i < (int)file_string.length()) value += file_string[i++];
@@ -100,11 +104,13 @@ void options(string file_location) {
             valss >> valnum;
             player.keys.key_time = valnum;
         }
-
+        
+        if(option == "warning_message") {
+            if(value == "false" || value == "0" || value == "no") VAC_Warning = false;
+        }
 
 
         // cout << option << "=" << value << endl;
-
 
 
     }
@@ -146,6 +152,14 @@ int main(int argc, char *argv[]) {
 
 
     cout << "========== PianoPlayer - V1.0 ==========" << endl;
+    if(VAC_Warning) {
+        cout << "[ WARNING ]" << endl;
+        cout << "THIS WAS NOT TESTED ON VAC" << endl;
+        cout << "SECURE SERVERS!" << endl;
+        cout << "USE ON VAC SECURE SERVERS" << endl;
+        cout << "AT YOUR OWN RISK!" << endl;
+        cout << endl;
+    }
     cout << "[ SONG ]" << endl;
     cout << player.name << endl;
     cout << player.description << endl;
