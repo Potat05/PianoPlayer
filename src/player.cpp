@@ -98,11 +98,17 @@ void Piano_Player::step() {
                     finished = true;
                     stop();
                     break; }
+                case 0xFA: { // META ACTION: PRINT
+                    if(debug) {
+                        cout << "Meta Action PRINT - string: ";
+                    }
+                    cout << data.read_string(data.read_char()) << endl;
+                    break; }
             }
         }
 
-        // Sleep(1000);
 
+        // Auto stop playing at end of data
         if(data.eof) {
             finished = true;
             stop();

@@ -100,6 +100,8 @@ bool Piano_Parser::parse_song(string file_string) {
         }
     }
 
+    compress();
+
 
     return true;
 }
@@ -146,34 +148,6 @@ bool Piano_Parser::parse_file(string file_location) {
 
 
 
-void Piano_Parser::addKeys(char keys[]) {
-    int count = *(&keys + 1) - keys;
-    if(count == 0) return;
-    // if(count >= 16) {
-    //     char split1[15];
-    //     char split2[count-15];
-    //     for(int i=0; i < count; i++) {
-    //         if(i <= 15) split1[i] = keys[i];
-    //         else split2[i-15] = keys[i];
-    //     }
-    //     addKeys(split1);
-    //     addKeys(split2);
-    //     return;
-    // }
-
-    // data.write_char(0x1 + count);
-    // for(int i=0; i < count; i++) {
-    //     data.write_char(keys[i]);
-    // }
-
-    for(int i=0; i < count; i++) {
-        if(i % 15 == 0) {
-            data.write_char(0x1 + min(16, count-i));
-        }
-        data.write_char(keys[i]);
-    }
-
-}
 
 void Piano_Parser::addDelay(unsigned int delay) {
     if(delay <= 255) {
@@ -191,31 +165,111 @@ void Piano_Parser::addDelay(unsigned int delay) {
     return;
 }
 
-// void Piano_Parser::compress() {
-//     // Compressed file
-//     File_System comp;
-//     data.reset();
-
-//     // Type & validation
-//     comp.write_chars(data.read_chars(4), 4);
-//     // Name & description
-//     unsigned char name_length = data.read_char();
-//     comp.write_char(name_length);
-//     comp.write_string(comp.read_string(name_length));
-//     unsigned short description_length = data.read_short();
-//     comp.write_short(description_length);
-//     comp.write_string(comp.read_string(description_length));
-
-//     // Actions
-//     bool reading_keys = false;
-//     unsigned char keys_count = 0;
-//     unsigned char keys[15];
-//     bool reading_delays = false;
-//     unsigned int delay = 0;
-//     while(!data.eof) {
-
-//     }
 
 
-//     data = comp;
-// }
+
+// Basically just combine keys and delays.
+void Piano_Parser::compress() {
+    // Compressed file
+    File_System comp;
+    data.reset();
+
+
+    // Type & validation
+    comp.write_char('2');
+    comp.write_char(0x79); comp.write_char(0xBD); comp.write_char(0xAC); 
+    data.read_chars(4);
+
+    // Name & description
+    unsigned char name_length = data.read_char();
+    comp.write_char(name_length);
+    comp.write_string(data.read_string(name_length));
+    unsigned short description_length = data.read_short();
+    comp.write_short(description_length);
+    comp.write_string(data.read_string(description_length));
+
+
+
+    // Actions
+    bool reading_keys = false;
+    unsigned char keys_count = 0;
+    unsigned char keys[15];
+    bool reading_delays = false;
+    unsigned int delay = 0;
+    while(!data.eof) {
+
+        unsigned char action = data.read_char();
+        unsigned char action_type = action >> 4;
+        unsigned char action_val = action & 0x0F;
+
+        // Add keys
+        if(reading_keys && (action_type != 0x1 || keys_count >= 16)) {
+            comp.write_char((0x01 << 4) | keys_count);
+            for(unsigned char i=0; i < keys_count; i++) {
+                comp.write_char(keys[i]);
+            }
+            keys_count = 0;
+            reading_keys = false;
+        }
+        // Add delays
+        if(reading_delays && action_type != 0x2) {
+            if(delay <= 255) {
+                comp.write_char(0x20);
+                comp.write_char(delay);
+            } else if(delay <= 65535) {
+                comp.write_char(0x21);
+                comp.write_short(delay);
+            } else {
+                comp.write_char(0x22);
+                comp.write_int(delay);
+            }
+            delay = 0;
+            reading_delays = false;
+        }
+
+
+        // ACTIONS
+        if(action_type <= 0x9) {
+            switch(action_type) {
+                case 0x0: break; // NULL
+                case 0x1: { // KEYS
+                    reading_keys = true;
+                    for(unsigned char i=action_val; i > 0; i--) {
+                        keys[keys_count] = data.read_char();
+                        keys_count++;
+                    }
+                    break; }
+                case 0x2: { // DELAY
+                    reading_delays = true;
+                    switch(action_val) {
+                        case 0x0:
+                            delay += data.read_char();
+                            break;
+                        case 0x1:
+                            delay += data.read_short();
+                            break;
+                        case 0x2:
+                            delay += data.read_int();
+                            break;
+                    }
+                    break; }
+            }
+        } else { // Meta action
+            action_type = action;
+            switch(action_type) {
+                case 0xFF: // END SONG
+                    comp.write_char(0xFF);
+                    break;
+                case 0xFA: { // STRING
+                    unsigned char byte = data.read_char();
+                    comp.write_char(byte);
+                    comp.write_string(data.read_string(byte));
+                    break; }
+            }
+        }
+
+    }
+
+
+    data = comp;
+}
