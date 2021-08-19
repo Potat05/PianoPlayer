@@ -20,11 +20,19 @@ Int = 0-4294967295 (32 bits)
         * song description (same amount of bytes as song description length)
     * song array
         * ACTIONS (1 nibble (half byte) for action type)
-            * 0x1 (play keys)
+            * 0x1 (Play keys)
                 * next nibble is amount of keys
                 * the bytes after that is the keys
-            * 0x2 (delay)
-                * next nibble: 0x1 if byte, 0x2 if short, 0x3 if int
+            * 0x2 (Delay)
+                * next nibble: 0x0 if byte, 0x1 if short, 0x2 if int
                 * the byte/short/int after that is delay
+            * 0x3 (Sequence keys) (TODO)
+                * next nibble: 0x0 if byte, 0x1 if short, 0x2 if int
+                * the byte/short/int after that is delay
+                * next byte is amount of keys
+                * the bytes after that is the keys
             * 0xA-0xF (meta action 1 byte)
                 * 0xFF (End song)
+                * 0xFA (Print)
+                    * next byte is count to print
+                    * next bytes are what to print
