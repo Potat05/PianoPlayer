@@ -4,3 +4,6 @@
 key_time=10
 # You shouldn't increase this above 50, It might make the song sound inconsistant!
 
+# WARNING MESSAGE
+warning_message=true
+
