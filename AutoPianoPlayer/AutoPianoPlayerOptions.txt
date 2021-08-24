@@ -8,4 +8,4 @@ key_time=10
 warning_message=false
 
 # Debug mode enabled
-debug=true
+debug=false
