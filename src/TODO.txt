@@ -1,0 +1,3 @@
+Move all parsing to their own files to make it easier to do shit
+
+Fix it not playing the last key

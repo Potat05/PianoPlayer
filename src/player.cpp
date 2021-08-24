@@ -6,22 +6,26 @@
 #include <fstream>
 #include <windows.h>
 
+#include "globals.h"
+
 using namespace std;
 
 
-void Piano_Player::load() {
+bool Piano_Player::load() {
+
     data.reset();
 
     // File type
-    if(data.read_char() != '2') return;
+    if(data.read_char() != '2') return false;
 
     // Header validation
-    if(data.read_char() != 0x79 || data.read_char() != 0xBD || data.read_char() != 0xAC) return;
+    if(data.read_int() != 0x79BDAC3F) return false;
     // Name & description
     name = data.read_string(data.read_char());
     description = data.read_string(data.read_short());
 
     start_pointer = data.pointer;
+    return true;
 }
 
 
@@ -87,6 +91,17 @@ void Piano_Player::step() {
                         cout << "Action DELAY - delay: " << val << " - " << key_count << "*" << keys.key_time << endl;
                     }
                     break; }
+                case 0x4: { // ACTION: PLAY NOTES
+                    if(debug) {
+                        cout << "Action PLAY NOTES - count: " << (int)action_val << " - notes: " << data.read_string(action_val) << endl;
+                        data.pointer -= action_val;
+                    }
+                    // Press keys
+                    key_count += action_val;
+                    for(unsigned char i=action_val; i > 0; i--) {
+                        keys.press_midi(data.read_char());
+                    }
+                }
             }
         } else { // Meta action
             action_type = action;

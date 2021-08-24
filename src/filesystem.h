@@ -21,6 +21,7 @@ using namespace std;
 struct File_System {
     unsigned int pointer = 0; // Byte pointer
     vector<unsigned char> data; // Data as bytes
+    string name = "null"; // Name of file
 
     // Saving & loading file
     bool load_file(string file_location); // Load file into data
@@ -51,6 +52,14 @@ struct File_System {
     void write_string(string val=""); // Write string
 
     unsigned char pop(); // Removes last char from data and returns
+
+    // Basically just reads any length number
+    // if last bit is set it reads another byte
+    // The max is 32 bits but we do 64 bits just incase
+    unsigned long long int read_vlv(); // For MIDI files
+
+    // Read amount of bytes
+    unsigned long long int read_bytes(unsigned char count=1);
 
     
 };

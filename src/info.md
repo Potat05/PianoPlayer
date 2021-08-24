@@ -13,7 +13,7 @@ Int = 0-4294967295 (32 bits)
 * FILE
     * file type (1 byte) (Always make '2' for binary format)
     * header
-        * header validation (3 bytes) (always make 0x79BDAC)
+        * header validation (4 bytes) (always make 0x79BDAC3F)
         * song name length (1 byte)
         * song name (same amount of bytes as song name length)
         * song description length (2 bytes)
@@ -31,6 +31,9 @@ Int = 0-4294967295 (32 bits)
                 * the byte/short/int after that is delay
                 * next byte is amount of keys
                 * the bytes after that is the keys
+            * 0x4 (Play note)
+                * next nibble is amount of notes
+                * the bytes after that is the notes
             * 0xA-0xF (meta action 1 byte)
                 * 0xFF (End song)
                 * 0xFA (Print)

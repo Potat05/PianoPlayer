@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "globals.h"
 #include "player.h"
 #include "parser.h"
 
@@ -15,6 +16,7 @@ string save_location = "_pianosave";
 unsigned int save_max_size = 32 * 1024;
 
 bool VAC_Warning = true;
+bool debug = false;
 
 
 static void startAutoPiano() {
@@ -37,7 +39,7 @@ static void startAutoPiano() {
                     cout << "Stopped auto piano." << endl;
                 }
                 if(GetAsyncKeyState(VK_NUMPAD3)) exit(0);
-                if(GetAsyncKeyState(VK_NUMPAD0)) player.debug = true;
+                if(GetAsyncKeyState(VK_NUMPAD0)) debug = true;
                 if(GetAsyncKeyState(VK_NUMPAD6)) player.time = 0;
 
             }
@@ -50,7 +52,7 @@ static void startAutoPiano() {
 
 
         if(GetAsyncKeyState(VK_NUMPAD3)) exit(0);
-        if(GetAsyncKeyState(VK_NUMPAD0)) player.debug = true;
+        if(GetAsyncKeyState(VK_NUMPAD0)) debug = true;
         if(GetAsyncKeyState(VK_NUMPAD9)) {
             if(player.save(save_location, save_max_size)) cout << "Saved paino sheet to \"" << save_location << ".txt\"." << endl;
             else cout << "Cannot save piano sheet! File size exceeds " << (save_max_size / 1024) << "KB" << endl;
@@ -109,6 +111,10 @@ void options(string file_location) {
             if(value == "false" || value == "0" || value == "no") VAC_Warning = false;
         }
 
+        if(option == "debug") {
+            if(value == "true" || value == "1" || value == "yes") debug = true;
+        }
+
 
         // cout << option << "=" << value << endl;
 
@@ -146,7 +152,10 @@ int main(int argc, char *argv[]) {
 
 
     // Init song
-    player.load();
+    if(!player.load()) {
+        player.data = default_song().data;
+        player.load();
+    }
 
 
 
@@ -173,11 +182,12 @@ int main(int argc, char *argv[]) {
     cout << "NUMPAD6 = Skip through song" << endl;
     cout << endl;
     cout << "NUMPAD9 = Save song as binary \"" << save_location << ".txt\" & close program" << endl;
-    cout << "NUMPAD0 = Enable debug mode" << endl;
+    if(!debug) cout << "NUMPAD0 = Enable debug mode" << endl;
     cout << "========================================" << endl;
     cout << "[ LOG ]" << endl;
 
     
 
     startAutoPiano();
+
 }

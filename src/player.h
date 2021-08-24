@@ -24,12 +24,10 @@ struct Piano_Player {
     int start_time;
     int total_time;
 
-    void load();
+    bool load();
     void start();
     void stop();
     void step();
-
-    bool debug = false;
 
     bool save(string file_location="_pianosave", unsigned int file_max_size=32*1024);
 

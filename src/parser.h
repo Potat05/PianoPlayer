@@ -15,10 +15,8 @@ struct Piano_Parser {
     bool parse_file(string file_location);
     bool parse_binary();
     bool parse_song(string file_string);
-    bool parse_song2(string file_string);
-    bool parse_midi();
+    bool parse_midi(File_System midi);
 
-    void addKeys(char keys[]);
     void addDelay(unsigned int delay=0);
 
     void compress();

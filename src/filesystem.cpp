@@ -25,6 +25,9 @@ bool File_System::load_file(string file_location) {
 
     if(length <= 0) return false; // Error loading file
 
+    // Name
+    name = file_location;
+
     // Load file into data
     data.reserve(length);
     copy(istreambuf_iterator<char>(file), istreambuf_iterator<char>(), back_inserter(data));
@@ -74,7 +77,7 @@ void File_System::reset() {
 unsigned char File_System::read_char() {
     if(eof) return 0; // If end of file don't read junk bytes
     if(pointer+1 >= data.size()) eof = true; // Check if pointer is going to be at end of file
-
+    
     return data[pointer++];
 }
 
@@ -158,4 +161,43 @@ unsigned char File_System::pop() {
     unsigned char val = data[data.size()-1];
     data.pop_back();
     return val;
+}
+
+
+
+
+unsigned long long int File_System::read_vlv() {
+    bool loop = true;
+    unsigned long long int value = 0;
+    unsigned long long int base = 1;
+
+    // If final bit in byte isn't set don't goto next byte
+    while(loop) {
+        unsigned char read = read_char();
+
+        if(read & 128) {
+            read -= 128;
+        } else {
+            loop = false;
+        }
+        value += read * base;
+        base *= 128;
+    }
+
+    return value;
+}
+
+
+unsigned long long int File_System::read_bytes(unsigned char count) {
+    unsigned long long int value = 0;
+    unsigned long long int base = 1;
+
+    for(unsigned char i=0; i < count; i++) {
+        unsigned char read = read_char();
+
+        value += read * base;
+        base *= 256;
+    }
+
+    return value;
 }
