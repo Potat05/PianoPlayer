@@ -45,6 +45,12 @@ And if it still doesn't work you're out of luck i guess. . .
   * 19 8 2021
     * Song compressing for pianosave
     * Print action
+  * 20 8 2021
+    * New debug option, now you don't have to manually enable it
+  * 21 8 2021 - 24 8 2021
+    * Very basic MIDI song file playing
+  * 25 8 2021
+    * MIDI can now be played a bit better? (Delays somewhat work.)
   
   
   
